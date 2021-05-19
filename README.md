@@ -10,7 +10,7 @@ Goto the app directory and run
 `flutter run`  
   
 ## Assignment  
-Fork and Clone this repository to you system.  
+Fork and Clone this repository to your system.  
 Try to modify the UI of the app in your way, add more fields to the task, like a subtitle etc.  
 You can find some reference to code in the repo mentioned below.  
 `https://github.com/arshithsuresh/flutter-todo-app/tree/finishedAppAPI`  

@@ -15,6 +15,9 @@ Try to modify the UI of the app in your way, add more fields to the task, like a
 You can find some reference to code in the repo mentioned below.  
 `https://github.com/arshithsuresh/flutter-todo-app/tree/finishedAppAPI`  
   
-After you are happy with the look of you app, make a pull request to this repository.  
+After you are happy with the look of you app, make a pull request to this repository. 
+
+##OR
+You can try making an app of your own from scratch and upload it as a repository in you github profile. We will provide link to submit your repository soon!
   
 Happy Coding!!

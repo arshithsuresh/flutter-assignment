@@ -17,20 +17,18 @@ class MyApp extends StatelessWidget {
           if (snapshot.hasError) print("Error!");
           if (snapshot.connectionState == ConnectionState.done)
             return MaterialApp(
-                title: 'Flutter Demo',
+                title: 'Checklist',
                 debugShowCheckedModeBanner: false,
                 theme: ThemeData(
-                  primarySwatch: Colors.blue,
+                  primarySwatch: Colors.teal,
                 ),
                 initialRoute: '/',
                 routes: {
                   '/': (context) => SplashScreen(),
                   '/home': (context) => HomePage()
                 });
-          
+
           return CircularProgressIndicator();
-        }
-      
-        );
+        });
   }
 }

@@ -18,20 +18,18 @@ class _HomePageState extends State<HomePage> {
   final _collection = FirebaseFirestore.instance.collection("todolist");
 
   void deleteTask(ToDoModel item) {
-      _collection.doc(item.documentId).delete();
+    _collection.doc(item.documentId).delete();
   }
 
   void setTaskStatus(ToDoModel item) {
-    _collection.doc(item.documentId).update({
-        "status" : !item.getStatus()
-    });
+    _collection.doc(item.documentId).update({"status": !item.getStatus()});
   }
 
   void deleteAllTasks() {
-    _collection.limit(50).get().then((value) => value.docs.every((element){
-      _collection.doc(element.id).delete();
-      return true;
-    }));
+    _collection.limit(50).get().then((value) => value.docs.every((element) {
+          _collection.doc(element.id).delete();
+          return true;
+        }));
   }
 
   void createNewTask() {
@@ -44,10 +42,12 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("TodoList"),
+        backgroundColor: Colors.teal,
+        title: Text("Checklist"),
         actions: [
           IconButton(
               icon: Icon(Icons.delete_forever),
+              color: Colors.white,
               onPressed: () {
                 deleteAllTasks();
               })
@@ -59,21 +59,31 @@ class _HomePageState extends State<HomePage> {
         child: Column(
           children: [
             Text(
-              "ToDo List",
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
+              "My ToDo List",
+              style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 30,
+                  color: Colors.black87),
             ),
-            SizedBox(height: 20),
-            Text("Title"),
+            SizedBox(height: 30),
             TextField(
               controller: todoTitleFieldController,
               style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
               decoration: InputDecoration(
+                  hintText: '  Add a task...',
+                  hintStyle: TextStyle(fontSize: 16, color: Colors.blueGrey),
                   border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(32),
-                      borderSide: BorderSide(width: 2))),
+                      borderSide: BorderSide(
+                        width: 2,
+                      ))),
             ),
             SizedBox(height: 8),
             ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.teal,
+                  onPrimary: Colors.white,
+                ),
                 onPressed: () {
                   createNewTask();
                 },
@@ -83,34 +93,31 @@ class _HomePageState extends State<HomePage> {
             ),
             Container(
                 decoration: BoxDecoration(
-              border: Border(top: BorderSide(width: 1, color: Colors.grey)),
+              border: Border(top: BorderSide(width: 1, color: Colors.teal)),
             )),
             SizedBox(
               height: 8,
             ),
             Expanded(
               child: StreamBuilder(
-                stream: _firestore.collection("todolist").snapshots(),
-                builder: (context, snapshot) {
+                  stream: _firestore.collection("todolist").snapshots(),
+                  builder: (context, snapshot) {
+                    if (!snapshot.hasData)
+                      return Center(
+                          child: Text("No Tasks Found!",
+                              style: TextStyle(
+                                  fontSize: 23, color: Colors.blueGrey)));
 
-                  
+                    QuerySnapshot data = snapshot.data;
 
-                  if(!snapshot.hasData)
-                    return Center(
-                      child: Text("No Tasks Found!"),
-                    );
-
-                  QuerySnapshot data = snapshot.data;
-
-                  return ListView.builder
-                  (
-                    itemCount: data.docs.length,
-                    itemBuilder: (context,index){
-                        ToDoModel item = ToDoModel.fromJson(data.docs[index].data(), data.docs[index].id);
-                        return todoContainer(item);
-                  });
-                }
-              ),
+                    return ListView.builder(
+                        itemCount: data.docs.length,
+                        itemBuilder: (context, index) {
+                          ToDoModel item = ToDoModel.fromJson(
+                              data.docs[index].data(), data.docs[index].id);
+                          return todoContainer(item);
+                        });
+                  }),
             )
           ],
         ),
@@ -125,13 +132,14 @@ class _HomePageState extends State<HomePage> {
         margin: EdgeInsets.only(top: 4, bottom: 4),
         padding: EdgeInsets.only(left: 6, right: 12, top: 4, bottom: 4),
         decoration: BoxDecoration(
-            border: Border.all(color: Colors.black, width: 2),
+            border: Border.all(color: Colors.teal, width: 2),
             borderRadius: BorderRadius.circular(32)),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             IconButton(
                 icon: Icon(statusIcon),
+                color: Colors.blueGrey,
                 onPressed: () {
                   setTaskStatus(item);
                 }),
@@ -139,11 +147,13 @@ class _HomePageState extends State<HomePage> {
                 style: TextStyle(
                     fontWeight: FontWeight.normal,
                     fontSize: 18,
+                    color: Colors.blueGrey,
                     decoration: item.getStatus()
                         ? TextDecoration.lineThrough
                         : TextDecoration.none)),
             IconButton(
                 icon: Icon(Icons.delete),
+                color: Colors.blueGrey,
                 onPressed: () {
                   deleteTask(item);
                 })
